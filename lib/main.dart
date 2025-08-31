@@ -1,9 +1,13 @@
+import 'package:dejapew/common/storage_service/storage_service.dart';
 import 'package:dejapew/common/theme/app_theme.dart';
 import 'package:dejapew/screens/homepage/home.imports.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await StorageService.init();
+
   runApp(const MyApp());
 }
 

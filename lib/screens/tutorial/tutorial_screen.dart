@@ -28,11 +28,7 @@ class _TutorialScreenState extends State<TutorialScreen> {
       child: BackgroundPattern(
         pattern: BgPatternType.topography,
         children: [
-          AppTopbar(
-            title: 'شرح طريقة اللعب',
-            trailing: Icons.info_outline,
-            trailingOnTap: () {},
-          ),
+          AppTopbar(title: 'شرح طريقة اللعب', trailing: Icons.info_outline),
           Expanded(
             child: PageView(
               controller: _pageController,
@@ -79,12 +75,17 @@ class _TutorialScreenState extends State<TutorialScreen> {
           HomeMainBtn(
             title: 'ابدأ اللعب',
             onTap: _currentPage == 3
-                ? () => Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => ChooseGameModeScreen(),
-                    ),
-                  )
+                ? () async {
+                    SoundManager.playSound(SoundKeys.click);
+                    if (context.mounted) {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ChooseGameModeScreen(),
+                        ),
+                      );
+                    }
+                  }
                 : null,
           ),
           Gap(60),

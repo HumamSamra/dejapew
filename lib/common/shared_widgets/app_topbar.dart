@@ -1,3 +1,5 @@
+import 'package:dejapew/common/sound_manager/sound_keys.dart';
+import 'package:dejapew/common/sound_manager/sound_manager.dart';
 import 'package:dejapew/common/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 
@@ -32,7 +34,12 @@ class AppTopbar extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   IconButton(
-                    onPressed: leadingOnTap,
+                    onPressed: leadingOnTap == null
+                        ? null
+                        : () async {
+                            SoundManager.playSound(SoundKeys.click);
+                            leadingOnTap!();
+                          },
                     color: AppColors.light,
                     disabledColor: AppColors.gray,
                     icon: Icon(leading),
@@ -47,7 +54,10 @@ class AppTopbar extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   IconButton(
-                    onPressed: () => Navigator.pop(context),
+                    onPressed: () async {
+                      SoundManager.playSound(SoundKeys.click);
+                      Navigator.pop(context);
+                    },
                     color: AppColors.light,
                     disabledColor: AppColors.gray,
                     icon: Icon(Icons.arrow_back),
@@ -77,7 +87,12 @@ class AppTopbar extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   IconButton(
-                    onPressed: trailingOnTap,
+                    onPressed: trailingOnTap == null
+                        ? null
+                        : () async {
+                            SoundManager.playSound(SoundKeys.click);
+                            trailingOnTap!();
+                          },
                     disabledColor: AppColors.gray,
                     color: AppColors.light,
                     icon: Icon(trailing),

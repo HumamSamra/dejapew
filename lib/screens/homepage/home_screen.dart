@@ -27,33 +27,55 @@ class _HomeScreenState extends State<HomeScreen> {
                 children: [
                   HomeMainBtn(
                     title: 'ابدأ اللعب',
-                    onTap: () => Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => ChooseGameModeScreen(),
-                      ),
-                    ),
+                    onTap: () async {
+                      SoundManager.playSound(SoundKeys.click);
+                      if (context.mounted) {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ChooseGameModeScreen(),
+                          ),
+                        );
+                      }
+                    },
                   ),
                   Gap(20),
                   HomeOutlineBtn(
                     title: 'طريقة اللعب',
-                    onTap: () => Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => TutorialScreen()),
-                    ),
+                    onTap: () async {
+                      SoundManager.playSound(SoundKeys.click);
+                      if (context.mounted) {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => TutorialScreen(),
+                          ),
+                        );
+                      }
+                    },
                   ),
                   Gap(20),
                   HomeOutlineBtn(
                     title: 'الإعدادات',
-                    onTap: () => Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => TutorialScreen()),
-                    ),
+                    onTap: () async {
+                      SoundManager.playSound(SoundKeys.click);
+                      if (context.mounted) {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => SettingsScreen(),
+                          ),
+                        );
+                      }
+                    },
                   ),
                   Gap(20),
                   HomeOutlineBtn(
                     title: 'خروج',
-                    onTap: () async => _leaveWarning(),
+                    onTap: () async {
+                      SoundManager.playSound(SoundKeys.click);
+                      _leaveWarning();
+                    },
                   ),
                 ],
               ),
@@ -89,7 +111,12 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           actions: [
             TextButton(
-              onPressed: () => Navigator.pop(context),
+              onPressed: () async {
+                SoundManager.playSound(SoundKeys.click);
+                if (context.mounted) {
+                  Navigator.pop(context);
+                }
+              },
               style: ElevatedButton.styleFrom(
                 foregroundColor: AppColors.primary,
                 shape: RoundedRectangleBorder(
@@ -99,8 +126,10 @@ class _HomeScreenState extends State<HomeScreen> {
               child: Text('إلغاء', style: TextStyle(fontSize: 18)),
             ),
             ElevatedButton(
-              onPressed: () =>
-                  SystemChannels.platform.invokeMethod('SystemNavigator.pop'),
+              onPressed: () async {
+                SoundManager.playSound(SoundKeys.click);
+                SystemChannels.platform.invokeMethod('SystemNavigator.pop');
+              },
               style: ElevatedButton.styleFrom(
                 backgroundColor: AppColors.primary,
                 foregroundColor: AppColors.light,

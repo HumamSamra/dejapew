@@ -1,7 +1,8 @@
 part of 'choose_difficulty.imports.dart';
 
 class ChooseDifficultyScreen extends StatefulWidget {
-  const ChooseDifficultyScreen({super.key});
+  final GameType gameType;
+  const ChooseDifficultyScreen({super.key, required this.gameType});
 
   @override
   State<ChooseDifficultyScreen> createState() => _ChooseDifficultyScreenState();
@@ -35,7 +36,10 @@ class _ChooseDifficultyScreenState extends State<ChooseDifficultyScreen> {
                   ),
                   actions: [
                     TextButton(
-                      onPressed: () => Navigator.pop(context),
+                      onPressed: () async {
+                        SoundManager.playSound(SoundKeys.click);
+                        Navigator.pop(context);
+                      },
                       style: ElevatedButton.styleFrom(
                         foregroundColor: AppColors.primary,
                         shape: RoundedRectangleBorder(
@@ -45,7 +49,10 @@ class _ChooseDifficultyScreenState extends State<ChooseDifficultyScreen> {
                       child: Text('إلغاء', style: TextStyle(fontSize: 18)),
                     ),
                     ElevatedButton(
-                      onPressed: () => Navigator.pop(context),
+                      onPressed: () async {
+                        SoundManager.playSound(SoundKeys.click);
+                        Navigator.pop(context);
+                      },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: AppColors.primary,
                         foregroundColor: AppColors.light,
@@ -61,41 +68,83 @@ class _ChooseDifficultyScreenState extends State<ChooseDifficultyScreen> {
             ),
           ),
           Spacer(),
+          Icon(
+            widget.gameType == GameType.against_bot
+                ? Icons.devices
+                : Icons.co_present_outlined,
+            color: AppColors.light,
+            size: 60,
+          ),
+          Text(
+            widget.gameType == GameType.against_bot
+                ? 'ضد الكمبيوتر'
+                : 'ضد صديق',
+            style: TextStyle(fontSize: 40, color: AppColors.light),
+          ),
+          Gap(30),
           DifficultyBtn(
             title: 'سهل',
             size: 1,
-            onTap: () => Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) =>
-                    GameSessionScreen(level: DifficultyLevel.easy),
-              ),
-            ),
+            onTap: () async {
+              SoundManager.playSound(SoundKeys.click);
+              final cardsType = await Utils.getCardType();
+              if (context.mounted) {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => GameSessionScreen(
+                      level: DifficultyLevel.easy,
+                      gameType: widget.gameType,
+                      cardsType: cardsType,
+                    ),
+                  ),
+                );
+              }
+            },
           ),
           Gap(20),
           DifficultyBtn(
             title: 'عادي',
             size: 2,
-            onTap: () => Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) =>
-                    GameSessionScreen(level: DifficultyLevel.normal),
-              ),
-            ),
+            onTap: () async {
+              SoundManager.playSound(SoundKeys.click);
+              final cardsType = await Utils.getCardType();
+              if (context.mounted) {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => GameSessionScreen(
+                      level: DifficultyLevel.normal,
+                      gameType: widget.gameType,
+                      cardsType: cardsType,
+                    ),
+                  ),
+                );
+              }
+            },
           ),
           Gap(20),
           DifficultyBtn(
             title: 'صعب',
             size: 3,
-            onTap: () => Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) =>
-                    GameSessionScreen(level: DifficultyLevel.hard),
-              ),
-            ),
+            onTap: () async {
+              SoundManager.playSound(SoundKeys.click);
+              final cardsType = await Utils.getCardType();
+              if (context.mounted) {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => GameSessionScreen(
+                      level: DifficultyLevel.hard,
+                      gameType: widget.gameType,
+                      cardsType: cardsType,
+                    ),
+                  ),
+                );
+              }
+            },
           ),
+          Gap(30),
           Spacer(),
           Text("v1.0", style: TextStyle(fontSize: 25, color: AppColors.light)),
         ],

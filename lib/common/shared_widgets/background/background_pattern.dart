@@ -26,7 +26,7 @@ class BackgroundPattern extends StatelessWidget {
               color: AppColors.background,
               image: DecorationImage(
                 colorFilter: ColorFilter.mode(
-                  Color.fromRGBO(234, 231, 235, .05),
+                  Color.fromRGBO(234, 231, 235, .07),
                   BlendMode.srcIn,
                 ),
                 image: Svg(patternPath),
