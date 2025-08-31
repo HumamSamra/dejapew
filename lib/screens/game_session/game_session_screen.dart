@@ -142,32 +142,7 @@ class _GameSessionScreenState extends State<GameSessionScreen>
               !bot!.isPlaying &&
               playerTurn == PlayerTurn.PLAYER2 &&
               chosenCards.isEmpty) {
-            final rng = Random();
-            bot!.isPlaying = true;
-
-            await Future.delayed(Duration(seconds: rng.nextInt(3)));
-            var memoryCards = <GameCard>[];
-            if (bot!.hasSufficientCards) {
-              memoryCards = bot!.chooseCardsFromMemory();
-            } else {
-              final availableCards = cards.where((e) => !e.keepValue).toList();
-              final card_1 = availableCards[rng.nextInt(availableCards.length)];
-              availableCards.remove(card_1);
-              memoryCards.add(card_1);
-              memoryCards.add(
-                availableCards[rng.nextInt(availableCards.length)],
-              );
-            }
-
-            memoryCards[0].controller!.toggleCard();
-            SoundManager.playSound(SoundKeys.flipCard);
-            // First Card Prediction
-
-            await Future.delayed(Duration(seconds: rng.nextInt(3)));
-            // Second Card Prediction
-            memoryCards[1].controller!.toggleCard();
-            SoundManager.playSound(SoundKeys.flipCard);
-            bot!.isPlaying = false;
+            _playBotTurn();
           }
         }
       } else {
@@ -184,10 +159,37 @@ class _GameSessionScreenState extends State<GameSessionScreen>
         SoundManager.playSound(SoundKeys.win, lowLatency: false);
         await Future.delayed(const Duration(milliseconds: 500));
         setState(() => show1 = true);
-        await Future.delayed(const Duration(milliseconds: 500));
+        await Future.delayed(const Duration(seconds: 500));
         setState(() => show2 = true);
       }
     });
+  }
+
+  void _playBotTurn() async {
+    final rng = Random();
+    bot!.isPlaying = true;
+
+    var memoryCards = <GameCard>[];
+    if (bot!.hasSufficientCards) {
+      memoryCards = bot!.chooseCardsFromMemory();
+    } else {
+      final availableCards = cards.where((e) => !e.keepValue).toList();
+      final card_1 = availableCards[rng.nextInt(availableCards.length)];
+      availableCards.remove(card_1);
+      memoryCards.add(card_1);
+      memoryCards.add(availableCards[rng.nextInt(availableCards.length)]);
+    }
+
+    await Future.delayed(Duration(seconds: rng.nextInt(3)));
+    memoryCards[0].controller!.toggleCard();
+    SoundManager.playSound(SoundKeys.flipCard);
+    // First Card Prediction
+
+    await Future.delayed(Duration(seconds: rng.nextInt(3)));
+    // Second Card Prediction
+    memoryCards[1].controller!.toggleCard();
+    SoundManager.playSound(SoundKeys.flipCard);
+    bot!.isPlaying = false;
   }
 
   void _pauseTimer() {

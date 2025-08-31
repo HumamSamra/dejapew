@@ -45,10 +45,6 @@ class ComputerAgent {
       }
     }
 
-    if (cards.isEmpty) {
-      return [];
-    }
-
     double probability;
     switch (level) {
       case DifficultyLevel.easy:
